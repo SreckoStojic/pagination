@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        .css-table {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        .css-table td, .css-table th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        .css-table tr:nth-child(even){background-color: #f2f2f2;}
+        
+        .css-table tr:hover {background-color: #ddd;}
+        
+        .css-table th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #04AA6D;
+          color: white;
+        }
+        </style>
+</head>
+<body>
+    <table class="css-table js-table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Country</th>
+            <th>Company</th>
+        </tr>
+    </table>
+    <button class="js-previous">Previous</button>
+    <button class="js-next">Next</button> 
+    <script src="/static/main.js"></script>
+</body>
+</html>
