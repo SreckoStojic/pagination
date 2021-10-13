@@ -62,8 +62,8 @@ async function renderData (page, limit) {
     let response = '';
     try {
         let headers = {}
-        //response = await fetch(`http://localhost:3001/api/users?page=${page}&limit=${limit}`, {
-        response = await fetch(`http://pagination-ten.vercel.app/static/main/api/users?page=${page}&limit=${limit}`, {
+        response = await fetch(`http://localhost:3001/api/users?page=${page}&limit=${limit}`, {
+        //response = await fetch(`http://pagination-ten.vercel.app/static/main/api/users?page=${page}&limit=${limit}`, {
             method : "GET",
             mode: 'cors',
             headers: headers
