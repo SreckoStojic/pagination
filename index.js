@@ -64,7 +64,7 @@ app.post('/api/users', (req, res) => {
     res.send();
 });
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
