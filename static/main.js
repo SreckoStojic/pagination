@@ -2,13 +2,20 @@ let page = 0;
 let limit = 0;
 let button = 0;
 const MIN_PAGE_NUMBER = 1;
+const DEFAULT_PAGE = 1;
+const DEFUALT_LIMIT = 10;
+
 document.addEventListener("DOMContentLoaded", async function(){
     page = await readParamFromURL('page');
     limit = await readParamFromURL('limit');
     if (page !== null && limit !== null) {    
         await renderData(Number(page), limit)  + Number(button);
         document.querySelector('.js-page-number').innerHTML = page;
-    } 
+    } else {
+        await renderData(DEFAULT_PAGE, DEFUALT_LIMIT);
+        document.querySelector('.js-page-number').innerHTML = DEFAULT_PAGE;
+        await changeURL(DEFAULT_PAGE, DEFUALT_LIMIT);
+    }
 });
 
 document.querySelector('.js-next').addEventListener('click', async function(){
@@ -29,7 +36,7 @@ document.querySelector('.js-next').addEventListener('click', async function(){
     document.querySelector('.js-page-number').innerHTML = calcPage;
     await renderData(calcPage, limit); 
     document.querySelector('.js-previous').disabled = false;
-    window.location = `?page=${calcPage}&limit=${limit}`;
+    await changeURL(calcPage, limit);
     
 });
 
@@ -51,13 +58,17 @@ document.querySelector('.js-previous').addEventListener('click', async function(
         document.querySelector('.js-next').disabled = false;
         document.querySelector('.js-page-number').innerHTML = calcPage;
         await renderData(calcPage, limit);
-        window.location = `?page=${calcPage}&limit=${limit}`;
+        await changeURL(calcPage, limit);
     } else {
         document.querySelector('.js-page-number').innerHTML = MIN_PAGE_NUMBER;
         document.querySelector('.js-previous').disabled = true;
         await renderData(MIN_PAGE_NUMBER, limit);
     }
 });
+
+async function changeURL(page, limit) {
+    window.location.search = `?page=${page}&limit=${limit}`;
+}
 
 async function readParamFromURL(parameter) {
     const queryString = window.location.search;
