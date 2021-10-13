@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async function(){
 document.querySelector('.js-next').addEventListener('click', async function(){
     button++;
     page = await readPageFromURL();
+    const calcPage = button + page;
     limit = await readLimitFromURL();
     document.querySelector('.js-table').innerHTML = 
     `<tr>
@@ -21,12 +22,13 @@ document.querySelector('.js-next').addEventListener('click', async function(){
         <th>Country</th>
         <th>Company</th>
     </tr>`;
-    await renderData(Number(page) + Number(button), limit);
+    await renderData(calcPage, limit);
 });
 
 document.querySelector('.js-previous').addEventListener('click', async function(){
     button--;
     page = await readPageFromURL();
+    const calcPage = button + page;
     limit = await readLimitFromURL();
     document.querySelector('.js-table').innerHTML = 
     `<tr>
@@ -37,8 +39,8 @@ document.querySelector('.js-previous').addEventListener('click', async function(
         <th>Country</th>
         <th>Company</th>
     </tr>`;
-    if (button >= 0 && page > 0) {
-        await renderData(Number(page) + Number(button), limit);
+    if (calcPage > 0) {
+        await renderData(calcPage, limit);
     }
 });
 
