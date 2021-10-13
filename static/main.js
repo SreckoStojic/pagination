@@ -3,17 +3,19 @@ let limit = 0;
 let button = 0;
 const MIN_PAGE_NUMBER = 1;
 document.addEventListener("DOMContentLoaded", async function(){
-    page = await readPageFromURL();
-    limit = await readLimitFromURL();
-    await renderData(Number(page), limit)  + Number(button);
-    document.querySelector('.js-page-number').innerHTML = page;
+    page = await readParamFromURL('page');
+    limit = await readParamFromURL('limit');
+    if (page !== null && limit !== null) {    
+        await renderData(Number(page), limit)  + Number(button);
+        document.querySelector('.js-page-number').innerHTML = page;
+    } 
 });
 
 document.querySelector('.js-next').addEventListener('click', async function(){
     button = button + 1;
-    page = await readPageFromURL();
+    page = await readParamFromURL('page');
     const calcPage = Number(button) + Number(page);
-    limit = await readLimitFromURL();
+    limit = await readParamFromURL('limit');
     document.querySelector('.js-table').innerHTML = 
     `<tr>
         <th>ID</th>
@@ -25,15 +27,17 @@ document.querySelector('.js-next').addEventListener('click', async function(){
     </tr>`;
     
     document.querySelector('.js-page-number').innerHTML = calcPage;
-    await renderData(calcPage, limit);  
+    await renderData(calcPage, limit); 
     document.querySelector('.js-previous').disabled = false;
+    window.location = `?page=${calcPage}&limit=${limit}`;
+    
 });
 
 document.querySelector('.js-previous').addEventListener('click', async function(){
     button = button -1;
-    page = await readPageFromURL();
+    page = await readParamFromURL('page');
     const calcPage = Number(button) + Number(page);
-    limit = await readLimitFromURL();
+    limit = await readParamFromURL('limit');
     document.querySelector('.js-table').innerHTML = 
     `<tr>
         <th>ID</th>
@@ -47,6 +51,7 @@ document.querySelector('.js-previous').addEventListener('click', async function(
         document.querySelector('.js-next').disabled = false;
         document.querySelector('.js-page-number').innerHTML = calcPage;
         await renderData(calcPage, limit);
+        window.location = `?page=${calcPage}&limit=${limit}`;
     } else {
         document.querySelector('.js-page-number').innerHTML = MIN_PAGE_NUMBER;
         document.querySelector('.js-previous').disabled = true;
@@ -54,28 +59,20 @@ document.querySelector('.js-previous').addEventListener('click', async function(
     }
 });
 
-async function readPageFromURL() {
+async function readParamFromURL(parameter) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const page = urlParams.get('page');
+    const param = urlParams.get(parameter);
 
-    return page;
-}
-
-async function readLimitFromURL() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const limit = urlParams.get('limit');
-
-    return limit;
+    return param;
 }
 
 async function renderData (page, limit) {
     let response = '';
     try {
         let headers = {}
-        //response = await fetch(`http://localhost:443/api/users?page=${page}&limit=${limit}`, {
-        response = await fetch(`https://pagination-ten.vercel.app/api/users?page=${page}&limit=${limit}`, {
+        response = await fetch(`http://localhost:443/api/users?page=${page}&limit=${limit}`, {
+        //response = await fetch(`https://pagination-ten.vercel.app/api/users?page=${page}&limit=${limit}`, {
             method : "GET",
             mode: 'cors',
             headers: headers
