@@ -8,7 +8,12 @@ app.use(express.urlencoded());
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-app.use(cors({origin: '*'}));
+//app.use(cors({origin: '*'}));
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+ });
 
 app.get('/', (req, res) => {
     res.send('Hello world');
