@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
     res.send('Hello world');
 });
 
-const users = Array.from({length: 45}, (_, i) => (
+const users = Array.from({length: 300}, (_, i) => (
     {
         id: i.toString(),
         name: faker.name.findName(),
@@ -30,6 +30,10 @@ const users = Array.from({length: 45}, (_, i) => (
         company: faker.company.companyName(),
     }
 ));
+/*
+app.get('/api/users', (req, res) => {
+    res.send(users);
+});*/
 
 app.get('/api/users', paginated(users), (req, res) => {
     const page = parseInt(req.query.page);
@@ -70,13 +74,18 @@ app.post('/api/users', (req, res) => {
     res.send();
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 app.get("/index", (req, res) => {                                           //<------------------
     var path = require('path');
     res.sendFile(path.resolve(__dirname + '/client-side/index.html'));
+});
+
+app.get("/index-scroll", (req, res) => {                                           //<------------------
+    var path = require('path');
+    res.sendFile(path.resolve(__dirname + '/client-side/index-scroll.html'));
 });
 
 
